@@ -41,11 +41,17 @@ class BookController extends Controller
     public function store(Request $request)
     {
       $book = new book;
-      $book->title =  $request->input('title');
-      $book->isbn =  $request->input('isbn');
-      $book->author =  $request->input('author');
-      $book->category = $request->input('category') ;
-      $book->save();
+      // $book->title =  $request->input('title');
+      // $book->isbn =  $request->input('isbn');
+      // $book->author =  $request->input('author');
+      // $book->category = $request->input('category') ;
+       //dd($book);
+      //$book->save();
+      DB::connection('mongodb')->collection('books')->insert(array(
+               'isbn' => $request->input('isbn') ,'title' =>  $request->input('title'), 'author' =>  $request->input('author'),
+               'category' =>  $request->input('category')
+              ));
+
       $books = DB::collection('books')->get();
       return view('bookindex', compact('books'));
     }
